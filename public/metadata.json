@@ -1,0 +1,14 @@
+{
+  "siteTitle": "Girish Kor",
+  "description": " I'm a passionate software developer who loves crafting elegant digital solutions. Beyond code, I explore creativity through painting and photography — capturing colors and moments that inspire my work. Every project I create blends logic with artistry,reflecting a balance between technology and imagination.",
+  "baseUrl": "/girishkor.com/",
+  "language": "en",
+  "keywords": ["portfolio", "girish kor", "react", "vite", "tailwind", "web developer"],
+  "routes": [
+    { "path": "/", "title": "Home", "weight": 10 },
+    { "path": "/projects", "title": "Projects", "weight": 9 },
+    { "path": "/about", "title": "About", "weight": 8 },
+    { "path": "/contact", "title": "Contact", "weight": 8 }
+  ],
+  "lastUpdated": "2026-05-04"
+}
