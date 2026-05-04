@@ -1,23 +1,43 @@
 import { useState } from 'react'
+import { send } from '@emailjs/browser'
 import SfxText from '../components/SfxText'
 import Panel from '../components/Panel'
 
 const SOCIAL = [
-  { label: 'GITHUB', href: '#', handle: '@devhero' },
-  { label: 'TWITTER', href: '#', handle: '@devhero_x' },
-  { label: 'LINKEDIN', href: '#', handle: 'in/devhero' },
-  { label: 'EMAIL', href: 'mailto:hello@GIRISHKOR.COM', handle: 'hello@GIRISHKOR.COM' },
+  { label: 'GITHUB', href: 'https://github.com/girish-kor', handle: 'girish-kor' },
+  { label: 'PINTERERST', href: 'https://pin.it/7ATIkntA2', handle: 'girishkor' },
+  { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/girish-kor-52078a349', handle: 'in/girish-kor' },
+  { label: 'EMAIL', href: 'mailto:girishkor5@gmail.com', handle: 'girishkor5@gmail.com' },
 ]
 
 export default function Contact() {
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', message: '' })
 
   const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSent(true)
+    setSending(true)
+    try {
+      await send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          name: form.name,
+          email: form.email,
+          title: form.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      setSent(true)
+    } catch (err) {
+      console.error('Email send error:', err)
+      alert('Send failed — please try again later.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -90,9 +110,10 @@ export default function Contact() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-accent border-2 border-accent font-manga text-xl tracking-widest text-paper hover:bg-transparent hover:text-accent transition-all duration-300 sfx-text"
+                    disabled={sending}
+                    className="w-full py-4 bg-accent border-2 border-accent font-manga text-xl tracking-widest text-paper hover:bg-transparent hover:text-accent transition-all duration-300 sfx-text disabled:opacity-50"
                   >
-                    SEND IT!!
+                    {sending ? 'SENDING...' : 'SEND IT!!'}
                   </button>
                 </form>
               )}
